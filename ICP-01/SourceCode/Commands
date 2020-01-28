@@ -1,0 +1,17 @@
+hadoop fs -ls /user/cloudera
+hadoop fs -mkdir /user/cloudera/icp1
+hadoop fs -ls /user/cloudera
+
+hadoop fs -put shakespeare.txt /user/cloudera/icp1
+hadoop fs -ls /user/cloudera/icp1
+hadoop fs -appendToFile word_list.txt /user/cloudera/icp1/shakespeare.txt
+hadoop fs -ls /user/cloudera/icp1
+hadoop fs -cat /user/cloudera/icp1/shakespeare.txt | head -n 5 
+hadoop fs -cat /user/cloudera/icp1/shakespeare.txt | tail -n 5 
+
+hadoop fs -cat /user/cloudera/icp1/shakespeare.txt | head -n 5 | hadoop fs -put - /user/cloudera/icp1/head5lines.txt
+
+hadoop fs -cat /user/cloudera/icp1/shakespeare.txt | tail -n 5 | hadoop fs -put - /user/cloudera/icp1/tail5lines.txt
+
+hadoop fs -text /user/cloudera/icp1/*.txt | hadoop fs -put - /user/cloudera/icp1/all_in_one.txt
+
