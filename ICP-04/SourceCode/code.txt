@@ -3,12 +3,13 @@ To create a table
 
 hive> create table petrol (distributer_id STRING, distributer_name STRING, amt_IN STRING, amy_OUT STRING, vol_IN INT, vol_OUT INT, year INT) row format delimited fields terminated by ',' stored as textfile;
 
-# To skip the first line
+To show the tables
+hive> show tables;
+
+# To skip the frist line
 alter table petrol set tblproperties ("skip.header.line.count"="1")
 
-
 #1
-
 select distributer_name, SUM(vol_OUT) FROM petrol GROUP BY distributer_name;
 
 #2
@@ -17,28 +18,29 @@ select distributer_name, SUM(vol_OUT) FROM petrol GROUP BY distributer_name;
 #3
 select distributer_id,vol_OUT from petrol order by vol_OUT  limit 10;
 
-#4
-select distributer_name, year from petrol where (vol_IN-vol_OUT) > 500;
-
-show tables;
 
 
+To load the data
 load data local inpath '/home/cloudera/petrol.txt' into table petrol;
 
 select * from petrol limit 10;
 
+#1
 select distributer_name, sum(vol_OUT) from petrol group by distributer_name;
 
+#2
 select district_id, vol_OUT from petrol order by vol_OUT desc limit 10;
 
-
+#3
 select district_id, vol_OUT from petrol order by vol_OUT limit 10;
 
+#4
 select distributer_name, year from petrol where (vol_IN-vol_OUT) > 400;
 
 
 
-## 
+Olympic  
+
 hive> create table olympic (athlete STRING, age INT, country STRING, year STRING, closing STRING, sport STRING, gold INT, silver INT, bronze INT, total INT) row format delimited fields terminated by '\t' stored as textfile;
 
 load data local inpath '/home/cloudera/ICP-4/olympic_data.csv' into table olympic;
@@ -50,9 +52,9 @@ select country, SUM(total) from olympic where sport = "Swimming" group by countr
 #2
 hive> select year, SUM(total) from olympic where country = "India" group by year;
 
-
 #3
 select country, SUM(total) from olympic group by country;
+
 #4
 select country, SUM(gold) from olympic group by country;
 
@@ -60,28 +62,19 @@ select country, SUM(gold) from olympic group by country;
 select distinct(country), year from olympic where sport="Shooting" order by year, country;
 
 
+Movies. ratings, users
+
 create table movies (movieId STRING, title STRING, genres ARRAY<STRING>) row format delimited fields terminated by ',' collection items terminated by '|' stored as textfile;
 
 load data local inpath '/home/cloudera/ICP-4/movies.csv' into table movies;
 
 alter table movies set tblproperties ("skip.header.line.count"="1");
 
-
-select title, genres from movies where array_contains(genres, 'Action') and array_contains(genres,'Drama');
-
-
- create table ratings (userId STRING, movieId INT, rating DECIMAL(2,1), timestamp STRING) row format delimited fields terminated by ',' stored as textfile;
-
+create table ratings (userId STRING, movieId INT, rating DECIMAL(2,1), timestamp STRING) row format delimited fields terminated by ',' stored as textfile;
 
 load data local inpath '/home/cloudera/ICP-4/ratings.csv' into table ratings;
 
-
 alter table ratings set tblproperties ("skip.header.line.count"="1");
-
-select movieId, rating  from ratings where rating = 5;
-
-
-select title, rating, genres from movies JOIN ratings ON movies.movieId = ratings.movieId where array_contains(genres, 'Action') order by rating desc limit 11;
 
 
 create table users (userId INT, gender STRING, occupation INT,zipcode INT) row format delimited fileds terminated by ',' stored as textfile;
@@ -91,6 +84,17 @@ load data local inpath '/home/cloudera/ICP-4/users.txt' into table users;
 alter table users set tblproperties ("skip.header.line.count"="1");
 
 
+#2
+select title, genres from movies where array_contains(genres, 'Action') and array_contains(genres,'Drama');
+
+#3
+select movieId, rating  from ratings where rating = 5;
+
+#4
+select title, rating, genres from movies JOIN ratings ON movies.movieId = ratings.movieId where array_contains(genres, 'Action') order by rating desc limit 11;
+
+
+#Bonus
 select title, rating, gender, genres from movies JOIN ratings ON movies.movieId = ratings.movieId JOIN users ON ratings.userId = users.userId WHERE (array_contains(genres,'Action') OR array_contains(genres, 'Drama')) AND rating >=4.4 AND rating <= 4.9 AND gender ='M';
 
 
