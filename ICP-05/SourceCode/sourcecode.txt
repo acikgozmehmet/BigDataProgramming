@@ -1,0 +1,105 @@
+#Snoop verification
+sudo service mysqld start
+mysql -uroot -pcloudera
+
+
+#MySQL Verification
+sqoop-version
+
+#List databases in MySQL
+show databases;
+
+#To create db1 table
+create database db1;
+
+#To select database 
+use db1;
+
+#To create a table
+ mysql> create table student (id INT NOT NULL, name VARCHAR(20), major VARCHAR(20), gpa FLOAT, tutorId INT, PRIMARY KEY(id))
+
+#To insert records into table
+mysql> insert into student values(1,'Albert','PHY',2.9,100);
+mysql> insert into student values(2,'David','CS',3.3,100);
+mysql> insert into student values(3,'Tom','CS',3.23,101);
+mysql> insert into student values(4,'Jerry','CHEM',3.74,102);
+
+
+# To select all records from the table
+select * from student;
+
+
+#To import table into hdfs
+sqoop import --connect jdbc:mysql://localhost/db1 --username root --password cloudera --table student --m 1
+
+
+#To list table in hdfs
+hadoop fs -ls
+
+hadoop fs -ls student/
+
+#To see the table contents
+hadoop fs -cat student/*
+
+
+
+use db1;
+# To create a table in mysql to export the data from hadoop 
+mysql > create table student_exported_from_hadoop (id INT NOT NULL, name VARCHAR(20),  major VARCHAR(20), gpa FLOAT, tutorId INT, PRIMARY KEY(id));
+
+#To export table from hadoop
+sqoop export --connect jdbc:mysql://localhost/test --username root --password cloudera --table student_exported_from_hadoop --export-dir student/part-m-00000
+
+
+#To see the tables and records in mysql 
+mysql > show tables;
+mysql > select * from student_exported_from_hadoop;
+
+
+## Creating Hive Tables
+
+
+#To activate hive
+hive
+
+hive > show tables;
+
+# To create a table in hive warehouse 
+hive> CREATE TABLE ogrenci(id INT, name STRING, major STRING, gpa FLOAT, tutorId INT) row format delimited fields terminated by ',' stored as textfile;
+
+# To load data from the table in hdfs 
+hive> LOAD DATA INPATH 'student/' INTO TABLE ogrenci;
+
+# To show 10 records 
+hive> select * from ogrenci limit 10;
+
+
+
+#To list the tables in hive warehouse
+hadoop fs -ls /user/hive/warehouse/
+
+# Create table in mysql 
+create table stocks (date VARCHAR(100), val1 FLOAT, val2 FLOAT, val3 FLOAT, val4 FLOAT, val5 FLOAT, PRIMARY KEY(date));
+mysql > create table ogrenci (id INT NOT NULL, name VARCHAR(20), major VARCHAR(20), gpa FLOAT, tutorId INT, PRIMARY KEY(id))
+
+#To export table from hive into mysql
+sqoop export --connect jdbc:mysql://localhost/db1 --username root --password cloudera --table ogrenci --export-dir /user/hive/warehouse/ogrenci -m 1
+
+# To list tables 
+mysql> show tables
+
+# To list the records
+
+mysql> select * from ogrenci;
+
+
+#Statistic query
+hive > analyze table ogrenci compute statistics;
+
+#WordCOunt query
+hive> select word,count(1) as count from(select explode(split(name,'//s')) as word from ogrenci) temptable group by word;
+
+# Identifying pattern query
+hive > select * from ogrenci where tutorId = 1000 OR major = 'CHEM';
+hive > select * from ogrenci where tutorId = 1000 OR major LIKE 'C%';
+
