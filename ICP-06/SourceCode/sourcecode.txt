@@ -1,0 +1,31 @@
+1. Films Dataset
+a. solrctl instancedir --generate /tmp/films 
+b. gedit  /tmp/films/conf/schema.xml&  
+   
+   Add the following attributes to the schema.
+   
+   <field name="id" type="string" indexed="true" stored="true" required="true" /> 
+   <field name="genre" type="text_general" indexed="true" stored="true" /> 
+   <field name="directed_by" type="text_general" indexed="true" stored="true" /> 
+   <field name="initial_release_date" type="text_general" indexed="true" stored="true" /> 
+   <field name="type" type="text_general" indexed="true" stored="true" /> 
+
+c. solrctl instancedir --create films  /tmp/films
+d. solrctl collection --create films
+
+2. Books Dataset
+a. solrctl instancedir --generate /tmp/books 
+b. gedit  /tmp/books/conf/schema.xml&  
+   
+   Add the following attributes to the schema.
+
+   <field name="series_t" type="text_general" indexed="true" stored="true"/>
+   <field name="sequence_i" type="text_general" indexed="true" stored="true"/>
+   <field name="genre_s" type="text_general" indexed="true" stored="true"/>
+
+c. solrctl instancedir --create books  /tmp/books
+d. solrctl collection --create books
+
+
+
+

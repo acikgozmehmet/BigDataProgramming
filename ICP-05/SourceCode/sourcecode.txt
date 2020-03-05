@@ -79,7 +79,6 @@ hive> select * from ogrenci limit 10;
 hadoop fs -ls /user/hive/warehouse/
 
 # Create table in mysql 
-create table stocks (date VARCHAR(100), val1 FLOAT, val2 FLOAT, val3 FLOAT, val4 FLOAT, val5 FLOAT, PRIMARY KEY(date));
 mysql > create table ogrenci (id INT NOT NULL, name VARCHAR(20), major VARCHAR(20), gpa FLOAT, tutorId INT, PRIMARY KEY(id))
 
 #To export table from hive into mysql
