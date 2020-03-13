@@ -1,0 +1,10 @@
+1. Download Python 2.7.X (https://www.python.org/downloads/release/python-2717/)
+2. Install Python and during installation select Entire python paths
+3. Download Cassandra Version 3.11.6 or latest (http://cassandra.apache.org/download/)
+4. Extract it in you localsystem, i.e., C Drive
+5. Add envrionemnt variable CASSNADRA_HOME with value "C:\apache-cassandra-3.11.6"
+6. Navigate to "C:\apache-cassandra-3.11.6\bin" folder
+7. Open command terminal window as administratior, navigate to "C:\apache-cassandra-3.11.6\bin" and Type "cassandra.bat -f" for starting cassandra server on localhost
+8. Wait for server to initialize completely for atleast 3 - 5 minutes
+9. open new terminal windows navigate to "C:\apache-cassandra-3.11.6\bin" and type "cqlsh"
+

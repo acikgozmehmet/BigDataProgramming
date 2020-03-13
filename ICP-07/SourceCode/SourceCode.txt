@@ -1,0 +1,26 @@
+desc keyspaces;
+
+cqlsh> create keyspace test with replication={'class':'SimpleStrategy', 'replication_factor':1};
+use test;
+
+test> create table emp (employee_id int PRIMARY KEY, department text, lastname text, years_with_company int, hiredate text, jobtitle text, salary int, managerid int);
+
+test> copy emp (employee_id, department, lastname, years_with_company, hiredate, jobtitle, salary, managerid) from 'D:\UMKC\__Spring2020\CS5590BDP\Lesson7\employee_entries.csv' WITH DELIMITER='|' AND HEADER = TRUE;
+
+
+test> select employee_id, lastname, jobtitle, hiredate from emp;
+
+test> select lastname, salary from emp where jobtitle ='clerks' allow filtering;
+
+test> select lastname, jobtitle, salary from emp where hiredate='2000-02-18' allow filtering;
+
+test> select lastname, salary from emp;
+
+cqlsh:test> select lastname, salary, managerid from emp where salary=45000 allow filtering;
+
+C:\Program Files\apache-cassandra-3.11.6\bin>> c:\python27\python cqlsh.py
+
+
+
+CREATE CUSTOM INDEX  fn_prefix ON emp (lastname) USING 'org.apache.cassandra.index.sasi.SASIIndex';
+SELECT * FROM emp WHERE lastname LIKE 'G%';
