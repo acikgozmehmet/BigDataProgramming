@@ -1,0 +1,10 @@
+Antony -> Jame Juliane Laverne Marcos
+Brittaney -> Jame Juliane Kathlene Leora Marcos Trevor
+Isaias -> Jame Laverne Leora Trevor
+Jame -> Antony Brittaney Isaias Juliane Kathlene Laverne Leora
+Juliane -> Antony Brittaney Jame Kathlene Laverne Leora Marcos Trevor
+Kathlene -> Brittaney Jame Juliane Leora Trevor
+Laverne -> Antony Isaias Jame Juliane Leora Marcos
+Leora -> Brittaney Isaias Jame Juliane Kathlene Laverne
+Marcos -> Antony Brittaney Juliane Laverne Trevor
+Trevor -> Brittaney Isaias Juliane Kathlene Marcos
