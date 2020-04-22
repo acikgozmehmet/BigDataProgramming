@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="sbt: graphframes:graphframes:0.7.0-spark2.3-s_2.11:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/graphframes/graphframes/jars/graphframes-0.7.0-spark2.3-s_2.11.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
